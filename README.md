@@ -1,2 +1,2 @@
 # JereProject
-JereProject
+Jere's Project
