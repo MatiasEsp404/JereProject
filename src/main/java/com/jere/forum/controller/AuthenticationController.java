@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jere.forum.config.security.common.Paths;
+import com.jere.forum.config.security.constants.Paths;
 import com.jere.forum.dto.request.AuthenticationRequest;
 import com.jere.forum.dto.request.RegisterRequest;
 import com.jere.forum.dto.response.AuthenticationResponse;
@@ -35,18 +35,18 @@ public class AuthenticationController {
 	@Autowired
 	private IGetUserService getUserService;
 
-	@PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = Paths.REGISTER, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(registerService.register(registerRequest));
 	}
 
-	@PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = Paths.LOGIN, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AuthenticationResponse> login(
 			@Valid @RequestBody AuthenticationRequest authenticationRequest) {
 		return ResponseEntity.ok().body(authService.login(authenticationRequest));
 	}
 
-	@GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = Paths.ME, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponse> getUser() {
 		return ResponseEntity.ok().body(getUserService.getUserAuthenticated());
 	}

@@ -2,10 +2,11 @@ package com.jere.forum.dto.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.jere.forum.config.validation.AlphanumericWithWhiteSpaces;
+import com.jere.forum.config.security.constants.Validations;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,11 +22,11 @@ import lombok.Setter;
 public class RegisterRequest {
 
 	@NotNull(message = "The first name must not be null")
-	@AlphanumericWithWhiteSpaces(message = "First name can contain letters and spaces")
+	@Pattern(regexp = Validations.CHARACTERS_WITH_WHITE_SPACES, message = "First name can contain letters and spaces")
 	private String firstName;
 
 	@NotNull(message = "The last name must not be null")
-	@AlphanumericWithWhiteSpaces(message = "Last name can contain letters and spaces")
+	@Pattern(regexp = Validations.CHARACTERS_WITH_WHITE_SPACES, message = "Last name can contain letters and spaces")
 	private String lastName;
 
 	@NotNull(message = "The email must not be null")
@@ -35,5 +36,5 @@ public class RegisterRequest {
 	@NotNull(message = "The password must not be null")
 	@Length(min = 8, max = 16, message = "The password must be between 8 and 16 characters.")
 	private String password;
-	
+
 }

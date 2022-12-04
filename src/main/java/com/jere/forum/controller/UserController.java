@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jere.forum.config.security.common.Paths;
+import com.jere.forum.config.security.constants.Paths;
 import com.jere.forum.dto.response.ListUsersResponse;
 import com.jere.forum.service.abstraction.IGetUserService;
 
