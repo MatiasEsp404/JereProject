@@ -37,7 +37,7 @@ public class AuthenticationController {
 
 	@PostMapping(path = Paths.REGISTER, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
-		System.out.println(register(registerRequest));
+		System.out.println('h');
 		return ResponseEntity.status(HttpStatus.CREATED).body(registerService.register(registerRequest));
 	}
 
