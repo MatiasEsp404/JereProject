@@ -1,6 +1,6 @@
 package com.jere.forum.config.seeder;
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -24,7 +24,7 @@ public class RoleSeeder {
 
 	private void createRoleTable() {
 		if (roleRepository.count() < 2) {
-			roleRepository.saveAll(List.of(buildRole(Role.USER), buildRole(Role.ADMIN)));
+			roleRepository.saveAll(Arrays.asList(buildRole(Role.USER), buildRole(Role.ADMIN)));
 		}
 	}
 

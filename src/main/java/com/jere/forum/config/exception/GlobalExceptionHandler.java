@@ -1,5 +1,6 @@
 package com.jere.forum.config.exception;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,6 @@ import com.jere.forum.config.security.common.ErrorResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
 
 	@ExceptionHandler(value = EntityNotFoundException.class)
 	protected ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException e) {
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
 	}
 
 	private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message, String moreInfo) {
-		return buildErrorResponse(httpStatus, message, List.of(moreInfo));
+		return buildErrorResponse(httpStatus, message, Arrays.asList(moreInfo));
 	}
-	
+
 }

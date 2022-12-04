@@ -53,7 +53,7 @@ public class JwtUtils {
 	private String getFirstAuthority(UserDetails userDetails) {
 		Optional<? extends GrantedAuthority> authority = userDetails.getAuthorities().stream().findFirst();
 
-		if (authority.isEmpty()) {
+		if (!authority.isPresent()) {
 			throw new IllegalArgumentException("User must have one authority.");
 		}
 
