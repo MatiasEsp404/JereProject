@@ -1,6 +1,7 @@
 package com.jere.forum.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,16 +9,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.jere.forum.config.exception.runtime.EntityNotFoundException;
 import com.jere.forum.config.security.util.SecurityUtils;
+import com.jere.forum.dto.request.UpdateUserRequest;
 import com.jere.forum.dto.response.ListUsersResponse;
 import com.jere.forum.dto.response.UserResponse;
 import com.jere.forum.mapper.UserMapper;
+import com.jere.forum.mapper.updater.UserUpdater;
 import com.jere.forum.model.UserEntity;
 import com.jere.forum.repository.IUserRepository;
+import com.jere.forum.service.abstraction.IDeleteUserService;
 import com.jere.forum.service.abstraction.IGetUserService;
+import com.jere.forum.service.abstraction.IUpdateUserService;
 
 @Service
-public class UserService implements UserDetailsService, IGetUserService {
+public class UserService implements UserDetailsService, IGetUserService, IDeleteUserService, IUpdateUserService {
 
 	@Autowired
 	private IUserRepository userRepository;
@@ -27,6 +33,9 @@ public class UserService implements UserDetailsService, IGetUserService {
 
 	@Autowired
 	private SecurityUtils securityUtils;
+	
+	@Autowired
+	private UserUpdater userUpdater;
 
 	@Override
 	public ListUsersResponse listActiveUsers() {
@@ -52,6 +61,28 @@ public class UserService implements UserDetailsService, IGetUserService {
 			throw new UsernameNotFoundException("User not found.");
 		}
 		return userEntity;
+	}
+
+	@Override
+	public void delete(Integer id) {
+		UserEntity userEntity = findBy(id);
+		userEntity.setSoftDeleted(true);
+		userRepository.save(userEntity);
+	}
+
+	private UserEntity findBy(Integer id) {
+		Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
+		if (!optionalUserEntity.isPresent() || Boolean.TRUE.equals(optionalUserEntity.get().getSoftDeleted())) {
+			throw new EntityNotFoundException("User not found.");
+		}
+		return optionalUserEntity.get();
+	}
+
+	@Override
+	public void update(Integer id, UpdateUserRequest updateUserRequest) {
+		UserEntity userEntity = findBy(id);
+		UserEntity userUpdated = userUpdater.update(updateUserRequest, userEntity);
+		userRepository.save(userUpdated);
 	}
 
 }

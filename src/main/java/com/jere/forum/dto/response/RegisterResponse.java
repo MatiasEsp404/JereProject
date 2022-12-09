@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 public class RegisterResponse {
 
-	private Long id;
+	private Integer id;
 	private String firstName;
 	private String lastName;
 	private String email;

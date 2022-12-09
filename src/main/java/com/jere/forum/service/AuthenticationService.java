@@ -63,6 +63,8 @@ public class AuthenticationService implements IRegisterService, IAuthenticationS
 		userEntity.setSoftDeleted(false);
 		userEntity.setRole(userRoleEntity);
 		userEntity = userRepository.save(userEntity);
+		
+		// TODO Se debería enviar un email de bienvenida
 
 		RegisterResponse registerResponse = userMapper.toRegisterResponse(userEntity);
 		registerResponse.setToken(jwtUtils.generateToken(userEntity));

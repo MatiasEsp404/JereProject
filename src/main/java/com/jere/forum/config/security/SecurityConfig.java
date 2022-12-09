@@ -29,10 +29,6 @@ import com.jere.forum.config.security.filter.JwtRequestFilter;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String ID = "{id:^\\d+$}";
-	private static final String PAGE = "?page={page:[\\d+]}&size={size:[\\d+]}";
-	private static final String DOCUMENTATION_PATHS = "/api/docs/**";
-
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 
@@ -68,13 +64,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
 
-				.antMatchers(DOCUMENTATION_PATHS)
-				.permitAll()
+				.antMatchers(Paths.DOCUMENTATION_PATHS).permitAll()
 
-				.antMatchers(HttpMethod.POST, Paths.AUTH_REGISTER).permitAll()
-				.antMatchers(HttpMethod.POST, Paths.AUTH_LOGIN).permitAll()
-				.antMatchers(HttpMethod.GET, Paths.AUTH_ME).hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-				.antMatchers(HttpMethod.GET, Paths.USERS).hasAnyRole(Role.ADMIN.name())
+				.antMatchers(HttpMethod.POST, Paths.AUTH + Paths.REGISTER).permitAll()
+				.antMatchers(HttpMethod.POST, Paths.AUTH + Paths.LOGIN).permitAll()
+				.antMatchers(HttpMethod.GET, Paths.AUTH + Paths.ME).hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+				
+				.antMatchers(HttpMethod.GET, Paths.USERS).hasRole(Role.ADMIN.name())
+				.antMatchers(HttpMethod.DELETE, Paths.USERS + Paths.ID).hasRole(Role.ADMIN.name())
+				.antMatchers(HttpMethod.PATCH, Paths.USERS + Paths.ID).hasAnyRole(Role.USER.name(), Role.ADMIN.name())
 
 				.anyRequest().authenticated().and()
 				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling()

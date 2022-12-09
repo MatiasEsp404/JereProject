@@ -37,7 +37,7 @@ public class UserEntity implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_ID")
-	private Long id;
+	private Integer id;
 
 	@Column(nullable = false)
 	private String firstName;

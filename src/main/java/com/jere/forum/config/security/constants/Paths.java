@@ -9,9 +9,9 @@ public abstract class Paths {
 	public static final String LOGIN = "/login";
 	public static final String ME = "/me";
 	
-	public static final String AUTH_REGISTER = AUTH + REGISTER;
-	public static final String AUTH_LOGIN = AUTH + LOGIN;
-	public static final String AUTH_ME = AUTH + ME;
+	public static final String ID = "/{id:^\\d+$}";
 	
+	public static final String PAGE = "?page={page:[\\d+]}&size={size:[\\d+]}";
+	public static final String DOCUMENTATION_PATHS = "/api/docs/**";
 
 }
