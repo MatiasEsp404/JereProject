@@ -25,7 +25,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.main.allow-bean-definition-overriding=true", classes = ForumApplication.class)
+@SpringBootTest(
+		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+		properties = "spring.main.allow-bean-definition-overriding=true",
+		classes = ForumApplication.class)
 @AutoConfigureMockMvc
 public abstract class BigTest {
 
@@ -111,7 +114,7 @@ public abstract class BigTest {
 
 	private String getAuthorizationTokenForUser(String email) throws Exception {
 		String content = mockMvc
-				.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON)
+				.perform(post("/api/auth/login").contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(
 								AuthenticationRequest.builder().email(email).password(PASSWORD).build())))
 				.andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);

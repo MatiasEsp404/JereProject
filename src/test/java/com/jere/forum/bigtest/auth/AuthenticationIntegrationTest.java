@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jere.forum.bigtest.util.BigTest;
+import com.jere.forum.config.security.constants.Paths;
 import com.jere.forum.dto.request.AuthenticationRequest;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -19,7 +20,7 @@ public class AuthenticationIntegrationTest extends BigTest {
 	@Test
 	public void shouldReturnTokenWhenCredentialsAreValid() throws Exception {
 
-		mockMvc.perform(post("/api/auth/login")
+		mockMvc.perform(post(Paths.AUTH + Paths.LOGIN)
 				.content(objectMapper.writeValueAsString(
 						AuthenticationRequest.builder().email("matias@gmail.com").password("Test1234").build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.token", notNullValue()))
@@ -29,7 +30,7 @@ public class AuthenticationIntegrationTest extends BigTest {
 	@Test
 	public void shouldReturnIsUnauthorizedStatusCodeWhenCredentialsAreInvalid() throws Exception {
 
-		mockMvc.perform(post("/api/auth/login")
+		mockMvc.perform(post(Paths.AUTH + Paths.LOGIN)
 				.content(objectMapper.writeValueAsString(
 						AuthenticationRequest.builder().email("matias@gmail.com").password("wrongPassword").build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(401)))
@@ -43,7 +44,7 @@ public class AuthenticationIntegrationTest extends BigTest {
 	@Test
 	public void shouldReturnBadRequestStatusCodeWhenCredentialsHaveInvalidFormat() throws Exception {
 
-		mockMvc.perform(post("/api/auth/login")
+		mockMvc.perform(post(Paths.AUTH + Paths.LOGIN)
 				.content(objectMapper.writeValueAsString(
 						AuthenticationRequest.builder().email("incorrectFormatEmail").password("pass").build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(400)))

@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.jere.forum.config.security.constants.Paths;
 import java.util.Optional;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +25,7 @@ public class UpdateUserIntegrationTest extends BigTest {
 	public void shouldUpdateUserWhenUserHasAdminRole() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(patch("/users/{id}", String.valueOf(randomUser.getId()))
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().lastName("Gordon").build()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -41,7 +42,7 @@ public class UpdateUserIntegrationTest extends BigTest {
 	public void shouldUpdateUserWhenUserHasStandardUserRole() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(patch("/users/{id}", String.valueOf(randomUser.getId()))
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().lastName("Gordon").build()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
@@ -58,7 +59,7 @@ public class UpdateUserIntegrationTest extends BigTest {
 	public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(patch("/users/{id}", String.valueOf(randomUser.getId()))
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().lastName("Gordon").build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(403)))
 				.andExpect(jsonPath("$.message",
@@ -71,7 +72,7 @@ public class UpdateUserIntegrationTest extends BigTest {
 	@Test
 	public void shouldReturnNotFoundErrorResponseWhenUserNotExist() throws Exception {
 		String nonExistUserId = "1000000";
-		mockMvc.perform(patch("/users/{id}", nonExistUserId)
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, nonExistUserId)
 				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().lastName("Gordon").build()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -85,8 +86,9 @@ public class UpdateUserIntegrationTest extends BigTest {
 	public void shouldReturnBadRequestWhenPasswordIsTooLong() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(patch("/users/{id}", String.valueOf(randomUser.getId()))
-				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().password("0123456789").build()))
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
+				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder()
+						.password("0123456789101112131415").build()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
 				.andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -102,7 +104,7 @@ public class UpdateUserIntegrationTest extends BigTest {
 	public void shouldReturnBadRequestWhenPasswordIsTooShort() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(patch("/users/{id}", String.valueOf(randomUser.getId()))
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().password("0123").build()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -119,7 +121,7 @@ public class UpdateUserIntegrationTest extends BigTest {
 	public void shouldReturnBadRequestWhenFirstNameContainsNumbers() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(patch("/users/{id}", String.valueOf(randomUser.getId()))
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().firstName("G0rd0n").build()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -136,7 +138,7 @@ public class UpdateUserIntegrationTest extends BigTest {
 	public void shouldReturnBadRequestWhenLastNameContainsNumbers() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(patch("/users/{id}", String.valueOf(randomUser.getId()))
+		mockMvc.perform(patch(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 				.content(objectMapper.writeValueAsString(UpdateUserRequest.builder().lastName("Fr33m4n").build()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))

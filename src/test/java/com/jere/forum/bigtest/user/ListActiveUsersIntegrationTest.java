@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jere.forum.bigtest.util.BigTest;
+import com.jere.forum.config.security.constants.Paths;
 import com.jere.forum.model.UserEntity;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,11 +18,11 @@ public class ListActiveUsersIntegrationTest extends BigTest {
   public void shouldReturnListOfUsersWhenUserHasAdminRole() throws Exception {
     UserEntity randomUser = getRandomUser();
 
-    mockMvc.perform(get("/users")
+    mockMvc.perform(get(Paths.USERS)
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.users[*].id")
-            .value(Matchers.hasItem(randomUser.getId().intValue())))
+            .value(Matchers.hasItem(randomUser.getId())))
         .andExpect(jsonPath("$.users[*].firstName")
             .value(Matchers.hasItem(randomUser.getFirstName())))
         .andExpect(jsonPath("$.users[*].lastName")
