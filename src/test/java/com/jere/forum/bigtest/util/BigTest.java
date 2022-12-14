@@ -32,9 +32,9 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public abstract class BigTest {
 
-	private static final String ADMIN_EMAIL = "matias@gmail.com";
-	private static final String USER_EMAIL = "fernando@gmail.com";
-	private static final String PASSWORD = "Test1234";
+	private final String ADMIN_EMAIL = "matias@gmail.com";
+	protected final String USER_EMAIL = "fernando@gmail.com";
+	private final String PASSWORD = "Test1234";
 
 	@Autowired
 	protected MockMvc mockMvc;

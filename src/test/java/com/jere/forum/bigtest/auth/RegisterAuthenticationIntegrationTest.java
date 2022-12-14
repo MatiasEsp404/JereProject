@@ -20,34 +20,46 @@ import com.jere.forum.model.UserEntity;
 
 public class RegisterAuthenticationIntegrationTest extends BigTest {
 
+	private String firstname = "Jere";
+	private String lastname = "Bait";
+	private String email = "jerebait@mail.com";
+	private String password = "pass1234";
+	
 	@Test
 	public void shouldCreateNewUserWhenGivenDataIsValid() throws Exception {
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
-				.content(objectMapper.writeValueAsString(RegisterRequest.builder()
-						.firstName("Pepe")
-						.lastName("Le Pew")
-						.email("pepeLePew@mail.com")
-						.password("pass1234").build()))
+				.content(objectMapper.writeValueAsString(
+						RegisterRequest.builder()
+						.firstName(firstname)
+						.lastName(lastname)
+						.email(email)
+						.password(password)
+						.build()))
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.id", notNullValue()))
-				.andExpect(jsonPath("$.firstName", equalTo("Pepe")))
-				.andExpect(jsonPath("$.lastName", equalTo("Le Pew")))
-				.andExpect(jsonPath("$.email", equalTo("pepeLePew@mail.com")))
+				.andExpect(jsonPath("$.firstName", equalTo(firstname)))
+				.andExpect(jsonPath("$.lastName", equalTo(lastname)))
+				.andExpect(jsonPath("$.email", equalTo(email)))
 				.andExpect(jsonPath("$.token", notNullValue()))
 				.andExpect(status().isCreated());
-		UserEntity newUser = userRepository.findByEmail("pepeLePew@mail.com");
+		UserEntity newUser = userRepository.findByEmail(email);
 		assertNotNull(newUser);
-		assertEquals("Pepe", newUser.getFirstName());
-		assertEquals("Le Pew", newUser.getLastName());
+		assertEquals(firstname, newUser.getFirstName());
+		assertEquals(lastname, newUser.getLastName());
 	}
 
 	@Test
 	public void shouldReturnBadRequestWhenFirstNameIsNull() throws Exception {
 
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
-				.content(objectMapper.writeValueAsString(RegisterRequest.builder().lastName("Le Pew")
-						.email("pepeLePew@mail.com").password("pass1234").build()))
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(400)))
+				.content(objectMapper.writeValueAsString(
+						RegisterRequest.builder()
+						.lastName(lastname)
+						.email(email)
+						.password(password)
+						.build()))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
 				.andExpect(jsonPath("$.moreInfo", hasSize(1)))
 				.andExpect(jsonPath("$.moreInfo", hasItem("The first name must not be null")))
@@ -58,9 +70,15 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 	public void shouldReturnBadRequestWhenFirstNameContainsNumbers() throws Exception {
 
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
-				.content(objectMapper.writeValueAsString(RegisterRequest.builder().firstName("Pepe 100")
-						.lastName("Le Pew").email("pepeLePew@mail.com").password("pass1234").build()))
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(400)))
+				.content(objectMapper.writeValueAsString(
+						RegisterRequest.builder()
+						.firstName("J3r3")
+						.lastName(lastname)
+						.email(email)
+						.password(password)
+						.build()))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
 				.andExpect(jsonPath("$.moreInfo", hasSize(1)))
 				.andExpect(jsonPath("$.moreInfo", hasItem("First name can contain letters and spaces")))
@@ -69,11 +87,15 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 	@Test
 	public void shouldReturnBadRequestWhenLastNameIsNull() throws Exception {
-
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
-				.content(objectMapper.writeValueAsString(RegisterRequest.builder().firstName("Pepe")
-						.email("pepeLePew@mail.com").password("pass1234").build()))
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(400)))
+				.content(objectMapper.writeValueAsString(
+						RegisterRequest.builder()
+						.firstName(firstname)
+						.email(email)
+						.password(password)
+						.build()))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
 				.andExpect(jsonPath("$.moreInfo", hasSize(1)))
 				.andExpect(jsonPath("$.moreInfo", hasItem("The last name must not be null")))
@@ -82,11 +104,16 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 	@Test
 	public void shouldReturnBadRequestWhenLastNameContainsNumbers() throws Exception {
-
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
-				.content(objectMapper.writeValueAsString(RegisterRequest.builder().firstName("Pepe")
-						.lastName("Le Pew 1").email("pepeLePew@mail.com").password("pass1234").build()))
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(400)))
+				.content(objectMapper.writeValueAsString(
+						RegisterRequest.builder()
+						.firstName(firstname)
+						.lastName("B41t")
+						.email(email)
+						.password(password)
+						.build()))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
 				.andExpect(jsonPath("$.moreInfo", hasSize(1)))
 				.andExpect(jsonPath("$.moreInfo", hasItem("Last name can contain letters and spaces")))
@@ -95,10 +122,13 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 	@Test
 	public void shouldReturnBadRequestWhenEmailIsNull() throws Exception {
-
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
 				.content(objectMapper.writeValueAsString(
-						RegisterRequest.builder().firstName("Pepe").lastName("Le Pew").password("pass1234").build()))
+						RegisterRequest.builder()
+						.firstName(firstname)
+						.lastName(lastname)
+						.password(password)
+						.build()))
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
 				.andExpect(jsonPath("$.moreInfo", hasSize(1)))
@@ -108,13 +138,13 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 	@Test
 	public void shouldReturnConflictWhenEmailIsAlreadyExist() throws Exception {
-
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
 				.content(objectMapper.writeValueAsString(RegisterRequest.builder()
-						.firstName("Matias")
-						.lastName("Espinola")
-						.email("matias@gmail.com")
-						.password("Pass1234").build()))
+						.firstName(firstname)
+						.lastName(lastname)
+						.email(super.USER_EMAIL)
+						.password(password)
+						.build()))
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.statusCode", equalTo(409)))
 				.andExpect(jsonPath("$.message", equalTo("Email is already in use.")))
@@ -127,12 +157,15 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 	@Test
 	public void shouldReturnBadRequestWhenEmailHaveInvalidFormat() throws Exception {
-
-		mockMvc.perform(
-				post(Paths.AUTH + Paths.REGISTER)
-						.content(objectMapper.writeValueAsString(RegisterRequest.builder().firstName("Pepe")
-								.lastName("Le Pew").email("invalidFormat").password("pass1234").build()))
-						.contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
+				.content(objectMapper.writeValueAsString(
+						RegisterRequest.builder()
+						.firstName(firstname)
+						.lastName(lastname)
+						.email("invalidFormat")
+						.password(password)
+						.build()))
+				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
 				.andExpect(jsonPath("$.moreInfo", hasSize(1)))
@@ -142,12 +175,14 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 	@Test
 	public void shouldReturnBadRequestWhenPasswordIsNull() throws Exception {
-
-		mockMvc.perform(
-				post(Paths.AUTH + Paths.REGISTER)
-						.content(objectMapper.writeValueAsString(RegisterRequest.builder().firstName("Pepe")
-								.lastName("Le Pew").email("pepeLePew@mail.com").build()))
-						.contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
+				.content(objectMapper.writeValueAsString(
+						RegisterRequest.builder()
+						.firstName(firstname)
+						.lastName(lastname)
+						.email(email)
+						.build()))
+				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
 				.andExpect(jsonPath("$.moreInfo", hasSize(1)))
@@ -158,10 +193,9 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 	@Test
 	public void shouldReturnBadRequestWhenPasswordIsTooShort() throws Exception {
 
-		mockMvc.perform(
-				post(Paths.AUTH + Paths.REGISTER)
-						.content(objectMapper.writeValueAsString(RegisterRequest.builder().firstName("Pepe")
-								.lastName("Le Pew").email("pepeLePew@mail.com").password("pass").build()))
+		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
+				.content(objectMapper.writeValueAsString(RegisterRequest.builder().firstName(firstname)
+								.lastName(lastname).email(email).password("pass").build()))
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.statusCode", equalTo(400)))
 				.andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
@@ -175,9 +209,9 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 		mockMvc.perform(post(Paths.AUTH + Paths.REGISTER)
 				.content(objectMapper.writeValueAsString(RegisterRequest.builder()
-						.firstName("Pepe")
-						.lastName("Le Pew")
-						.email("pepeLePew@mail.com")
+						.firstName(firstname)
+						.lastName(lastname)
+						.email(email)
 						.password("MyPasswordIsTooLong").build()))
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.statusCode", equalTo(400)))

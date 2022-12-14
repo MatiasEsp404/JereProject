@@ -39,7 +39,7 @@ public class DeleteUserIntegrationTest extends BigTest {
 	public void shouldReturnForbiddenErrorResponseWhenUserHasStandardUserRole() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(delete("/api/users/{id}", String.valueOf(randomUser.getId()))
+		mockMvc.perform(delete(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
 		.andExpect(jsonPath("$.statusCode", equalTo(403)))
