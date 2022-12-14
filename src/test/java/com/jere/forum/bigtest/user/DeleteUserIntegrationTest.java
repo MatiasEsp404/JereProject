@@ -24,32 +24,34 @@ public class DeleteUserIntegrationTest extends BigTest {
 	public void shouldDeleteUserWhenUserHasAdminRole() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(
-				delete(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
+		mockMvc.perform(delete(Paths.USERS + Paths.ID, String.valueOf(randomUser.getId()))
 						.contentType(MediaType.APPLICATION_JSON)
 						.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
-				.andExpect(jsonPath("$").doesNotExist()).andExpect(status().isNoContent());
+		.andExpect(jsonPath("$").doesNotExist())
+		.andExpect(status().isNoContent());
 
 		assertUserHasBeenDeleted(randomUser.getId());
 
 		cleanUsersData(randomUser);
 	}
-	// TODO Esta prueba hay que cambiarla. Un usuario normal no puede bannear a otro usuario.
-/*
+
 	@Test
-	public void shouldDeleteUserWhenUserHasStandardUserRole() throws Exception {
+	public void shouldReturnForbiddenErrorResponseWhenUserHasStandardUserRole() throws Exception {
 		UserEntity randomUser = getRandomUser();
 
-		mockMvc.perform(
-				delete("/api/users/{id}", String.valueOf(randomUser.getId())).contentType(MediaType.APPLICATION_JSON)
-						.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
-				.andExpect(jsonPath("$").doesNotExist()).andExpect(status().isNoContent());
+		mockMvc.perform(delete("/api/users/{id}", String.valueOf(randomUser.getId()))
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
+		.andExpect(jsonPath("$.statusCode", equalTo(403)))
+		.andExpect(jsonPath("$.message",
+				equalTo("Access denied. Please, try to login again or contact your admin.")))
+		.andExpect(status().isForbidden());
 
-		assertUserHasBeenDeleted(randomUser.getId());
+		assertUserHasNotBeenDeleted(randomUser.getId());
 
 		cleanUsersData(randomUser);
 	}
-*/
+
 	@Test
 	public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
 		UserEntity randomUser = getRandomUser();
