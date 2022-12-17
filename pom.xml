@@ -3,6 +3,8 @@
 	<artifactId>forum</artifactId>
 
 
+
+
 	<build>
 		<pluginManagement>
 			<plugins>
