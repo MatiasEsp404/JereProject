@@ -70,28 +70,8 @@
 		</pluginManagement>
 	</build>
 
-	<!-- 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.amazonaws</groupId>
-				<artifactId>aws-java-sdk-bom</artifactId>
-				<version>1.12.187</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
--->
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.rudikershaw.gitbuildhook/git-build-hook-maven-plugin -->
-		<dependency>
-			<groupId>com.rudikershaw.gitbuildhook</groupId>
-			<artifactId>git-build-hook-maven-plugin</artifactId>
-			<version>3.3.0</version>
-		</dependency>
-
 		<dependency>
 			<artifactId>jjwt</artifactId>
 			<groupId>io.jsonwebtoken</groupId>
