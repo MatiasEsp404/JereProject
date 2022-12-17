@@ -48,7 +48,7 @@
 						</dependency>
 					</dependencies>
 					<configuration>
-						<configLocation>etc/style/google_style.xml</configLocation>
+						<configLocation>./etc/style/google_style.xml</configLocation>
 						<encoding>UTF-8</encoding>
 						<consoleOutput>true</consoleOutput>
 						<failsOnError>true</failsOnError>
@@ -85,6 +85,13 @@
 -->
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.rudikershaw.gitbuildhook/git-build-hook-maven-plugin -->
+		<dependency>
+			<groupId>com.rudikershaw.gitbuildhook</groupId>
+			<artifactId>git-build-hook-maven-plugin</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
 		<dependency>
 			<artifactId>jjwt</artifactId>
 			<groupId>io.jsonwebtoken</groupId>
