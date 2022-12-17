@@ -4,71 +4,73 @@
 
 
 	<build>
-		<plugins>
-			<plugin>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<groupId>org.springframework.boot</groupId>
-				<version>2.6.4</version>
-				<configuration>
-					<excludes>
-						<exclude>
-							<artifactId>lombok</artifactId>
-							<groupId>org.projectlombok</groupId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>git-build-hook-maven-plugin</artifactId>
-				<configuration>
-					<installHooks>
-						<pre-push>./etc/hooks/pre-push.sh</pre-push>
-					</installHooks>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>install</goal>
-						</goals>
-					</execution>
-				</executions>
-				<groupId>com.rudikershaw.gitbuildhook</groupId>
-				<version>3.0.0</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.0.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>8.12</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<configLocation>etc/style/google_style.xml</configLocation>
-					<encoding>UTF-8</encoding>
-					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
-					<failOnViolation>true</failOnViolation>
-					<violationSeverity>warning</violationSeverity>
-					<linkXRef>false</linkXRef>
-				</configuration>
-				<executions>
-					<execution>
-						<id>validate</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<groupId>org.springframework.boot</groupId>
+					<version>2.6.4</version>
+					<configuration>
+						<excludes>
+							<exclude>
+								<artifactId>lombok</artifactId>
+								<groupId>org.projectlombok</groupId>
+							</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>git-build-hook-maven-plugin</artifactId>
+					<configuration>
+						<installHooks>
+							<pre-push>./etc/hooks/pre-push.sh</pre-push>
+						</installHooks>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>install</goal>
+							</goals>
+						</execution>
+					</executions>
+					<groupId>com.rudikershaw.gitbuildhook</groupId>
+					<version>3.0.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>3.0.0</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>8.12</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<configLocation>etc/style/google_style.xml</configLocation>
+						<encoding>UTF-8</encoding>
+						<consoleOutput>true</consoleOutput>
+						<failsOnError>true</failsOnError>
+						<failOnViolation>true</failOnViolation>
+						<violationSeverity>warning</violationSeverity>
+						<linkXRef>false</linkXRef>
+					</configuration>
+					<executions>
+						<execution>
+							<id>validate</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
-
+	<!-- 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -80,7 +82,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+-->
 
 	<dependencies>
 		<dependency>
@@ -162,10 +164,9 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.12.0</version>
 		</dependency>
 	</dependencies>
-	
+
 
 	<description>Latin American online education platform</description>
 	<groupId>com.jere</groupId>

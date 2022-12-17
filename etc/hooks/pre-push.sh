@@ -1,5 +1,4 @@
 #!/bin/bash
-chmod +x ./pre-push.sh
 
 echo "---------------------------------------------"
 echo "[INFO] Running maven build before pushing... "
