@@ -5,6 +5,6 @@ import com.jere.forum.dto.response.RegisterResponse;
 
 public interface IRegisterService {
 
-	RegisterResponse register(RegisterRequest registerRequest);
-	
+  RegisterResponse register(RegisterRequest registerRequest);
+
 }

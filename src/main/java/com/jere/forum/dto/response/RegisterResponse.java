@@ -13,10 +13,10 @@ import lombok.Setter;
 @Builder
 public class RegisterResponse {
 
-	private Integer id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String token;
-	
+  private Integer id;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String token;
+
 }

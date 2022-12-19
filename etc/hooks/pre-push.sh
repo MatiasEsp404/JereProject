@@ -1,24 +1,24 @@
 #!/bin/bash
 
 echo "---------------------------------------------"
-echo "[INFO] Running maven build before pushing... "
+echo "[INFO] Iniciando CheckStyle"
 echo "---------------------------------------------"
-
-# running maven clean verify
-mvn -q clean verify
-rc=$?
-if [ $rc -ne 0 ]; then
-  echo "[ERROR] ----------------------------------------------------"
-  echo "                                                            "
-  echo "    Maven build has been failed... Can't push ¯\_(ツ)_/¯    "
-  echo "                                                            "
-  echo "    (っ▀¯▀)つ Review your code and try again                 "
-  echo "                                                            "
-  echo "[ERROR] ----------------------------------------------------"
+string=$(mvn checkstyle:checkstyle)
+if [[ $string == *WARN* ]]
+then
+  echo " "
+  echo "El codigo no cumple con las reglas de estilo: commit cancelado.";
+  echo "Para mas informacion ingresa 'mvn checkstyle:checkstyle'"
+  echo " "
+  echo "---------------------------------------------"
+  echo "[INFO] CheckStyle finalizado"
+  echo "---------------------------------------------"
   exit 1
 fi
 echo " "
+echo "El codigo cumple con las reglas de estilo.";
+echo " "
 echo "---------------------------------------------"
-echo "[INFO] Maven build succeeded"
+echo "[INFO] CheckStyle finalizado"
 echo "---------------------------------------------"
 exit 0

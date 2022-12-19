@@ -1,7 +1,6 @@
 package com.jere.forum.config.security.common;
 
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +14,8 @@ import lombok.Setter;
 @Builder
 public class ErrorResponse {
 
-	private int statusCode;
-	private String message;
-	private List<String> moreInfo;
-	
+  private int statusCode;
+  private String message;
+  private List<String> moreInfo;
+
 }

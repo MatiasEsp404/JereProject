@@ -18,19 +18,17 @@ public class ListActiveUsersIntegrationTest extends BigTest {
   public void shouldReturnListOfUsersWhenUserHasAdminRole() throws Exception {
     UserEntity randomUser = getRandomUser();
 
-    mockMvc.perform(get(Paths.USERS)
-            .contentType(MediaType.APPLICATION_JSON)
+    mockMvc
+        .perform(get(Paths.USERS).contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
-        .andExpect(jsonPath("$.users[*].id")
-            .value(Matchers.hasItem(randomUser.getId())))
-        .andExpect(jsonPath("$.users[*].firstName")
-            .value(Matchers.hasItem(randomUser.getFirstName())))
-        .andExpect(jsonPath("$.users[*].lastName")
-            .value(Matchers.hasItem(randomUser.getLastName())))
-        .andExpect(jsonPath("$.users[*].email")
-            .value(Matchers.hasItem(randomUser.getEmail())))
-        .andExpect(jsonPath("$.users[*].role")
-            .value(Matchers.hasItem(randomUser.getRole().getName())))
+        .andExpect(jsonPath("$.users[*].id").value(Matchers.hasItem(randomUser.getId())))
+        .andExpect(
+            jsonPath("$.users[*].firstName").value(Matchers.hasItem(randomUser.getFirstName())))
+        .andExpect(
+            jsonPath("$.users[*].lastName").value(Matchers.hasItem(randomUser.getLastName())))
+        .andExpect(jsonPath("$.users[*].email").value(Matchers.hasItem(randomUser.getEmail())))
+        .andExpect(
+            jsonPath("$.users[*].role").value(Matchers.hasItem(randomUser.getRole().getName())))
         .andExpect(status().isOk());
 
     cleanUsersData(randomUser);

@@ -5,6 +5,6 @@ import com.jere.forum.dto.response.AuthenticationResponse;
 
 public interface IAuthenticationService {
 
-	AuthenticationResponse login(AuthenticationRequest authenticationRequest);
-	
+  AuthenticationResponse login(AuthenticationRequest authenticationRequest);
+
 }
