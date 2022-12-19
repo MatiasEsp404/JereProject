@@ -8,7 +8,8 @@ public class ForumApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(ForumApplication.class, args);
-    if(true){System.out.println("Hola Mundo! Hola Mundo! Hola Mundo! Hola Mundo! Hola Mundo! Hola Mundo! Hola Mundo!");}
+    //if(true){System.out.println("Hola Mundo! Hola Mundo! Hola Mundo! Hola Mundo!
+    // Hola Mundo! Hola Mundo! Hola Mundo!");}
   }
 
 }
